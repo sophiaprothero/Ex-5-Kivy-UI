@@ -1,36 +1,77 @@
 <MainScreen>:
-    #: import time __main__.time
+
 
     name: 'main'
+    counter: counter
     FloatLayout:
         size_hint: None, None
 
     DPEAButton:
-        id: test_button
-        text: 'test'
-        size: 100, 100
-        x: root.width * 0.75
-        y: root.height * 0.5
-        color: 0, 1, 0, 1
-        on_press: root.pressed()
+        id: switchButton
+        halign: 'center'
+	    valign: 'middle'
+        text:"On" if switchButton.state == "down" else "Off"
+        size: 300, 100
+        x: root.width * 0.575
+        y: root.height * 0.1
+        color: 0, 0.7, 0.81, 1
 
     DPEAButton:
-        text: "test2"
-        size: 100, 100
-        x: root.width * 0.25
-        y: root.height * 0.5
-        color: 1, 0, 0, 1
-        on_press: root.pressed()
+        id: counter
+        text: "0"
+        size: 300, 100
+        x: root.width * 0.575
+        y: root.height * 0.75
+        color: 0.56, 0.54, 1, 1
+        on_release: root.counter_button()
 
-    SelfUpdatingLabel:
-        id: time_label
-        size_hint: None, None
-        font_size: 30
-        update_property: time.now
-        update_property_parameters: None
-        center_x: root.width * 0.5
-        center_y: root.height * 0.45
+    DPEAButton:
+        id: textMotor
+        text: "Motor Control"
+        size: 300, 100
+        x: root.width * 0.575
+        y: root.height * 0.5
+        color: 0.49, 0.64, 0.12, 1
+
+    Label:
+        id: motorToggle
+        font_size: 50
         color: 1, 1, 1, 1
         bold: True
-        outline_width: self.font_size * 0.1
+        color: 1, 1, 1, 1
+        x: root.width * 0.2625
+        y: root.height * -0.125
+        outline_width: 5
         outline_color: 0, 0, 0
+        text: "Motor On" if textMotor.state == "down" else "Motor Off"
+
+    Slider:
+        id: position
+        min: 0
+        max: 100
+        step: 0.5
+        orientation: 'vertical'
+        sensitivity: 'handle'
+        value_track_color: [0, 0, 0, 1]
+        value_track_width: 20
+        padding: 100
+        x: root.width * -0.4
+        y: root.height * 0.1
+
+    Label:
+        id: positionLabel
+        font_size: 50
+        color: 1, 1, 1, 1
+        bold: True
+        x: root.width * -0.4
+        y: root.height * -0.375
+        outline_width: 5
+        outline_color: 0, 0, 0
+        text: str(position.value)
+
+    ImageButton:
+        id: screenButton
+        size: 250, 250
+        x: root.width * 0.17
+        y: root.height * 0.5
+        on_press: root.image_transition()

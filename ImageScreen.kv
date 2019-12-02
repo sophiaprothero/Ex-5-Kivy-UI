@@ -1,0 +1,11 @@
+<ImageScreen>:
+    name: 'image'
+    FloatLayout:
+        size_hint: None, None
+
+    ImageButton:
+        #Go back button
+        size: 250, 250
+        x: root.width * 0.17
+        y: root.height * 0.5
+        on_press: root.image_transition_back()

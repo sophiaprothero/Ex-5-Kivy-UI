@@ -1,4 +1,5 @@
 import os
+
 os.environ['KIVY_GL_BACKEND'] = 'sdl2'
 
 from kivy.core.window import Window
@@ -10,6 +11,9 @@ from kivy.app import App
 from kivy.core.window import Window
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.properties import ObjectProperty
+from kivy.graphics import Color, Rectangle
+from kivy.uix.slider import Slider
 
 from pidev.MixPanel import MixPanel
 from pidev.kivy.PassCodeScreen import PassCodeScreen
@@ -28,6 +32,7 @@ MIXPANEL = MixPanel("Project Name", MIXPANEL_TOKEN)
 SCREEN_MANAGER = ScreenManager()
 MAIN_SCREEN_NAME = 'main'
 ADMIN_SCREEN_NAME = 'admin'
+IMAGE_SCREEN_NAME = 'image'
 
 
 class ProjectNameGUI(App):
@@ -43,7 +48,7 @@ class ProjectNameGUI(App):
         return SCREEN_MANAGER
 
 
-Window.clearcolor = (1, 1, 1, 1)  # White
+Window.clearcolor = (0.7, 0.7, 0.7, 1)
 
 
 class MainScreen(Screen):
@@ -51,13 +56,26 @@ class MainScreen(Screen):
     Class to handle the main screen and its associated touch events
     """
 
-    def pressed(self):
-        """
-        Function called on button touch event for button with id: testButton
-        :return: None
-        """
-        print("Callback from MainScreen.pressed()")
+    counter = ObjectProperty(None)
+    global x_value
+    x_value = 0
 
+    button_state = ObjectProperty(None)
+
+    def counter_button(self):
+        global x_value
+        x_value = x_value + 1
+        self.counter.text = "%d" % x_value
+
+    @staticmethod
+    def image_transition():
+        """
+         Transition to the image screen
+         :return:
+         """
+        SCREEN_MANAGER.current = IMAGE_SCREEN_NAME
+
+    @staticmethod
     def admin_action(self):
         """
         Hidden admin button touch event. Transitions to passCodeScreen.
@@ -65,6 +83,27 @@ class MainScreen(Screen):
         :return: None
         """
         SCREEN_MANAGER.current = 'passCode'
+
+
+class ImageScreen(Screen):
+
+    def __init__(self, **kwargs):
+        """
+        Load the ImageScreen.kv file.
+        Lastly super Screen's __init__
+        :param kwargs: Normal kivy.uix.screenmanager.Screen attributes
+        """
+        Builder.load_file('ImageScreen.kv')
+
+        super(ImageScreen, self).__init__(**kwargs)
+
+    @staticmethod
+    def image_transition_back():
+        """
+        Transition back to the main screen
+        :return:
+        """
+        SCREEN_MANAGER.current = MAIN_SCREEN_NAME
 
 
 class AdminScreen(Screen):
@@ -80,8 +119,10 @@ class AdminScreen(Screen):
         """
         Builder.load_file('AdminScreen.kv')
 
-        PassCodeScreen.set_admin_events_screen(ADMIN_SCREEN_NAME)  # Specify screen name to transition to after correct password
-        PassCodeScreen.set_transition_back_screen(MAIN_SCREEN_NAME)  # set screen name to transition to if "Back to Game is pressed"
+        PassCodeScreen.set_admin_events_screen(
+            ADMIN_SCREEN_NAME)  # Specify screen name to transition to after correct password
+        PassCodeScreen.set_transition_back_screen(
+            MAIN_SCREEN_NAME)  # set screen name to transition to if "Back to Game is pressed"
 
         super(AdminScreen, self).__init__(**kwargs)
 
@@ -119,6 +160,7 @@ SCREEN_MANAGER.add_widget(MainScreen(name=MAIN_SCREEN_NAME))
 SCREEN_MANAGER.add_widget(PassCodeScreen(name='passCode'))
 SCREEN_MANAGER.add_widget(PauseScreen(name='pauseScene'))
 SCREEN_MANAGER.add_widget(AdminScreen(name=ADMIN_SCREEN_NAME))
+SCREEN_MANAGER.add_widget(ImageScreen(name=IMAGE_SCREEN_NAME))
 
 """
 MixPanel
