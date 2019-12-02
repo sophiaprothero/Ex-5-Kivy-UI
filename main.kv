@@ -45,29 +45,29 @@
         outline_color: 0, 0, 0
         text: "Motor On" if textMotor.state == "down" else "Motor Off"
 
-#    Slider:
-#        id: position
-#        min: 0
-#        max: 100
-#        step: 0.5
-#        orientation: 'vertical'
-#        sensitivity: 'handle'
-#        value_track_color: [0, 0, 0, 1]
-#        value_track_width: 20
-#        padding: 100
-#        x: root.width * -0.4
-#        y: root.height * 0.1
+    Slider:
+        id: position
+        min: 0
+        max: 100
+        step: 0.5
+        orientation: 'vertical'
+        sensitivity: 'handle'
+        value_track_color: [0, 0, 0, 1]
+        value_track_width: 20
+        padding: 100
+        x: root.width * -0.4
+	y: root.height * 0.1
 
-#    Label:
-#        id: positionLabel
-#        font_size: 50
-#        color: 1, 1, 1, 1
-#        bold: True
-#        x: root.width * -0.4
-#        y: root.height * -0.375
-#        outline_width: 5
-#        outline_color: 0, 0, 0
-#        text: str(position.value)
+    Label:
+        id: positionLabel
+        font_size: 50
+        color: 1, 1, 1, 1
+        bold: True
+        x: root.width * -0.4
+        y: root.height * -0.375
+        outline_width: 5
+        outline_color: 0, 0, 0
+        text: str(position.value)
 
     ImageButton:
         id: screenButton
