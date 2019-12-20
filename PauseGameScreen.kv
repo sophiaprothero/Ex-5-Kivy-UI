@@ -1,0 +1,45 @@
+<PauseGameScreen>
+    name: 'pauseGame'
+    FloatLayout:
+        size_hint: None, None
+        canvas:
+            Color:
+                rgba: 0, 0, 0, .4
+            Rectangle:
+                size: root.size
+                pos: 0, 0
+            Color:
+                rgba: 0, 0, 0, .8
+
+        Label:
+            font_size: 80
+            color: 1, 1, 1, 1
+            bold: True
+            color: 1, 1, 1, 1
+            x: root.width * 0.425
+            y: root.height * 0.6
+            outline_width: 5
+            outline_color: 0, 0, 0
+            text: "Paused"
+
+        DPEAButton:
+            id: backToGame
+            halign: 'center'
+            valign: 'middle'
+            size: 100, 100
+            text: "play"
+            x: root.width * 0.3
+            y: root.height * 0.3
+            color: 0, 1, 0.53, 1
+            on_press: root.go_unpause()
+
+        DPEAButton:
+            id: backToMain
+            halign: 'center'
+            valign: 'middle'
+            size: 100, 100
+            text: "quit"
+            x: root.width * 0.55
+            y: root.height * 0.3
+            color: 1, 0.22, 0, 1
+            on_press: root.transition_back()
